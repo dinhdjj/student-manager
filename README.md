@@ -21,6 +21,12 @@
     pip install -r requirements.txt
 ```
 
+4. Sao chép file `.env.example` sang file `.env` và điền giá trị của bạn vào
+
+```command
+    cp .env.example .env
+```
+
 ## Cách sử lý tình huống
 
 1. Trường hợp cần cài thêm 1 gói thì cần cập nhật lại file requirements.txt
