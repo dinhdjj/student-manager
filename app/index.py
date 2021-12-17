@@ -1,4 +1,5 @@
 from . import app, is_debug
+from .admin import *
 
 
 def run_app():
