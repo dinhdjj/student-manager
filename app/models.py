@@ -39,17 +39,32 @@ class Policy(BaseModel):
         return self.name
 
 
-subject_student = db.Table('subject_student',
-                           Column('subject_id', Integer,
-                                  ForeignKey('subject.id')),
-                           Column('student_id', Integer,
-                                  ForeignKey('student.id')),
-                           Column('test15', JSON),
-                           Column('test45', JSON),
-                           Column('final_test', Integer))
+# subject_student = db.Table('subject_student',
+#                            Column('subject_id', Integer,
+#                                   ForeignKey('subject.id'), nullable=False),
+#                            Column('student_id', Integer,
+#                                   ForeignKey('student.id'), nullable=False),
+#                            Column('test15', JSON),
+#                            Column('test45', JSON),
+#                            Column('final_test', Integer), extend_existing=True)
 
 
-class student(BaseModel):
+class SubjectStudent(BaseModel):
+    __name__ = 'subject_student'
+    subject_id = Column(Integer, ForeignKey('subject.id'), nullable=False)
+    student_id = Column(Integer, ForeignKey('student.id'), nullable=False)
+    test15 = Column(JSON)
+    test45 = Column(JSON)
+    final_test = Column(Integer)
+
+    subject = relationship('Subject', backref='subject_students')
+    student = relationship('Student', backref='subject_students')
+
+    def __str__(self):
+        return self.subject.name + ' - ' + self.student.name
+
+
+class Student(BaseModel):
     name = Column(String(50), nullable=False)
     email = Column(String(50), nullable=False)
     phone_number = Column(Integer, nullable=False)
@@ -57,7 +72,7 @@ class student(BaseModel):
     birth_date = Column(DateTime, nullable=False)
     gender = Column(Enum(GenderEnum), nullable=False)
     subjects = relationship(
-        'Subject', secondary=subject_student, backref='students', lazy=True)
+        'Subject', secondary='subject_student', backref='students', lazy=True)
 
     def __str__(self):
         return self.name
@@ -66,14 +81,14 @@ class student(BaseModel):
 class Subject(BaseModel):
     name = Column(String(50), nullable=False, unique=True)
     description = Column(String(500), nullable=False)
-    level_id = Column(Integer, ForeignKey('level.id'))
+    level_id = Column(Integer, ForeignKey('level.id'), nullable=False)
     level = relationship('Level', backref='subjects', lazy=True)
 
     def __str__(self):
         return self.name
 
 
-class level(BaseModel):
+class Level(BaseModel):
     name = Column(String(50), nullable=False, unique=True)
     description = Column(String(500), nullable=False)
 
@@ -81,19 +96,30 @@ class level(BaseModel):
         return self.name
 
 
-classroom_student = db.Table('classroom_student',
-                             Column('classroom_id', Integer,
-                                    ForeignKey('classroom.id')),
-                             Column('student_id', Integer, ForeignKey('student.id')))
+# classroom_student = db.Table('classroom_student',
+#                              Column('classroom_id', Integer,
+#                                     ForeignKey('classroom.id'), nullable=False),
+#                              Column('student_id', Integer, ForeignKey('student.id'), nullable=False))
+
+class ClassroomStudent(BaseModel):
+    __name__ = 'classroom_student'
+    classroom_id = Column(Integer, ForeignKey('classroom.id'), nullable=False)
+    student_id = Column(Integer, ForeignKey('student.id'), nullable=False)
+
+    classroom = relationship('Classroom', backref='classroom_students')
+    student = relationship('Student', backref='classroom_students')
+
+    def __str__(self):
+        return self.classroom.name + ' - ' + self.student.name
 
 
-class classroom(BaseModel):
+class Classroom(BaseModel):
     name = Column(String(50), nullable=False, unique=True)
     description = Column(String(500), nullable=False)
-    level_id = Column(Integer, ForeignKey("level.id"))
-    level = relationship("level", backref="classrooms", lazy=True)
+    level_id = Column(Integer, ForeignKey("level.id"), nullable=False)
+    level = relationship("Level", backref="classrooms", lazy=True)
     students = relationship(
-        "Student", secondary=classroom_student, backref="classrooms", lazy=True)
+        "Student", secondary='classroom_student', backref="classrooms", lazy=True)
 
     def __str__(self):
         return self.name
