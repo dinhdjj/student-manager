@@ -3,8 +3,6 @@ from dotenv import dotenv_values
 from flask_sqlalchemy import SQLAlchemy
 from urllib.parse import quote
 
-from .routes import define_routes
-
 config = dotenv_values(".env")
 is_debug = config.get("APP_DEBUG", 'False') == 'True'
 
@@ -20,4 +18,3 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://' + \
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
 db = SQLAlchemy(app=app)
-define_routes(app)

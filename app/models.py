@@ -1,6 +1,7 @@
 import enum
 from sqlalchemy import Column, Integer, String, DateTime, Boolean, Enum, JSON
 from datetime import datetime
+from flask_login import UserMixin
 
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.schema import ForeignKey
@@ -20,7 +21,7 @@ class BaseModel(db.Model):
     created_at = Column(DateTime, default=datetime.now())
 
 
-class User(BaseModel):
+class User(BaseModel, UserMixin):
     name = Column(String(50), nullable=False)
     email = Column(String(50), nullable=False, unique=True)
     password = Column(String(50), nullable=False)
