@@ -58,8 +58,8 @@ class SubjectStudent(BaseModel):
     test45 = Column(JSON)
     final_test = Column(Integer)
 
-    # subject = relationship('Subject', backref='subject_students')
-    # student = relationship('Student', backref='subject_students')
+    subject = relationship('Subject', backref='subject_students')
+    student = relationship('Student', backref='subject_students')
 
     def __str__(self):
         return self.subject.name + ' - ' + self.student.name
@@ -107,8 +107,8 @@ class ClassroomStudent(BaseModel):
     classroom_id = Column(Integer, ForeignKey('classroom.id'), nullable=False)
     student_id = Column(Integer, ForeignKey('student.id'), nullable=False)
 
-    # classroom = relationship('Classroom', backref='classroom_students')
-    # student = relationship('Student', backref='classroom_students')
+    classroom = relationship('Classroom', backref='classroom_students')
+    student = relationship('Student', backref='classroom_students')
 
     def __str__(self):
         return self.classroom.name + ' - ' + self.student.name
