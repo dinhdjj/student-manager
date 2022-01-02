@@ -8,7 +8,7 @@ def use_flask_login(app):
 
     @login.user_loader
     def load_user(user_id):
-        from app.models import User
+        from .models import User
         return User.query.get(user_id)
 
     return login

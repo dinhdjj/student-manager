@@ -1,0 +1,24 @@
+{% extends 'layout/layout.html' %}
+<!--  -->
+{% set active_page = 'students in class' %}
+
+<!--  -->
+{% block content %}
+<!--  -->
+    <h1>Danh sach Thanh vien Lop {{ cl.name }}</h1>
+    <table class="table">
+        <tr>
+            <th>STT</th>
+            <th>Ho Va Ten</th>
+        </tr>
+        {% for i,s in info %}
+            <tr>
+                <th>{{ i }}</th>
+                <th>{{ s.__str__() }}</th>
+            </tr>
+       {% endfor %}
+    </table>
+
+<!--  -->
+{% endblock %}
+<!--  -->

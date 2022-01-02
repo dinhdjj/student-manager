@@ -1,7 +1,8 @@
-from . import app, is_debug
+from . import is_debug
 from .admin import *
 from .login import use_flask_login
 from .routes import define_routes
+
 
 define_routes(app)
 login = use_flask_login(app)

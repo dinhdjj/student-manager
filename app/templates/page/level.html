@@ -1,0 +1,47 @@
+{% extends 'layout/layout.html' %}
+<!--  -->
+
+
+<!--  -->
+{% block content %}
+<!--  -->
+<h1>Quan ly Khoi Lop</h1>
+{% if err != '' %}
+    {{ err }}
+    <br>
+    <a href="{{ url_for('level_manage') }}">Quay Lai</a>
+{% else %}
+    <div class="text-center">
+    <a href="{{ url_for('add_or_update_level') }}">Them Khoi Lop</a>
+     </div>
+    <table class="table">
+        <tr>
+            <th>STT</th>
+            <th>Ten Khoi Lop</th>
+            <th>Mo ta</th>
+            <th>DS Lop</th>
+            <th>Activity</th>
+        </tr>
+        {% for idx, level in (level) %}
+        <tr>
+            <th>{{ idx + 1 }}</th>
+            <th>{{ level.name }}</th>
+            <th>{{ level.description}}</th>
+            <th>
+            {% for i in c %}
+                {% if i.level_id ==level.id%}
+                   <a href="{{ url_for('class_info', id=i.id) }}">{{ i.name }}</a>
+                {% endif %}
+            {% endfor %}
+            </th>
+            <th>
+                <a href="{{ url_for('add_or_update_level', id=level.id) }}">Sua</a>
+                <a href="{{ url_for('delete_level', id = level.id) }}">Xoa</a>
+            </th>
+        </tr>
+    {% endfor %}
+    </table>
+{% endif %}
+<!--  -->
+{% endblock %}
+<!--  -->

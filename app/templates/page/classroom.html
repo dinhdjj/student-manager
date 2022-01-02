@@ -1,0 +1,28 @@
+{% extends 'layout/layout.html' %}
+<!--  -->
+{% set active_page = 'clas room' %}
+
+<!--  -->
+{% block content %}
+<!--  -->
+
+<main>
+  <h1>Quan Ly lop hoc</h1>
+</main>
+    <table class="table">
+        <tr>
+                <th>Ten Lop</th>
+                <th>Mo ta</th>
+            </tr>
+        {% for i in c %}
+            <tr>
+                <th> <a href="{{ url_for('class_info', id=i.id) }}">Lop {{ i.name }}</a></th>
+                <th>{{ i.description }}</th>
+            </tr>
+
+        {% endfor %}
+    </table>
+
+<!--  -->
+{% endblock %}
+<!--  -->
