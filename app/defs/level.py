@@ -4,18 +4,19 @@ from sqlalchemy import exc
 from app import db
 from app.models import Level
 from app.levelmanage import add_or_upadate, delete
-from app.models import Classroom
+from .classroom import get_class
+
 
 def level_manage(err=''):
     l = Level.query.all()
     level = enumerate(l)
-    c = Classroom.query.all()
-    return render_template('page/level.html', level=level,c=c, err=err)
+    c = get_class()
+    return render_template('page/level.html', level=level, c=c, err=err)
 
 
 def add_or_update_level():
-    l = {}
     level_id = request.args.get('id', None)
+    l = {}
     if request.method == 'POST':
         name = request.form.get('name')
         description = request.form.get('description')
@@ -36,4 +37,9 @@ def delete_level():
     except exc.IntegrityError:
         db.session.rollback()
         err = 'Co loi xay ra xoa khong thanh cong'
-    return render_template('page/level.html',err=err)
+    return render_template('page/level.html', err=err)
+
+
+def get_level():
+    l = Level.query.all()
+    return l

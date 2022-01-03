@@ -9,20 +9,36 @@
 <main>
   <h1>Quan Ly lop hoc</h1>
 </main>
-    <table class="table">
-        <tr>
-                <th>Ten Lop</th>
-                <th>Mo ta</th>
-            </tr>
-        {% for i in c %}
-            <tr>
-                <th> <a href="{{ url_for('class_info', id=i.id) }}">Lop {{ i.name }}</a></th>
-                <th>{{ i.description }}</th>
-            </tr>
+    <div class="container">
+        {% if result %}
+            <div class=" alert alert-danger">
+                {{ result }}
+            </div>
+        {% endif %}
+        <div class="text-center">
+            <a href="{{ url_for('add_class') }}">Them lop hoc</a>
+        </div>
+        {% for level in l %}
+        <table class="table">
+                <h1>Khoi {{ level }}</h1>
+                <tr>
+                    <th>Ten Lop</th>
+                    <th>Mo ta</th>
+                    <th>Activity</th>
+                </tr>
 
-        {% endfor %}
-    </table>
-
+            {% for i in c %}
+                {% if level.id == i.level_id %}
+                <tr>
+                    <th> <a href="{{ url_for('class_info', id=i.id) }}">Lop {{ i.name }}</a></th>
+                    <th>{{ i.description }}</th>
+                    <th><a href="{{ url_for('add_class', id = i.id) }}">Sua</a><br><a href="">Xoa</a></th>
+                </tr>
+                {% endif %}
+            {% endfor %}
+            {% endfor %}
+        </table>
+    </div>
 <!--  -->
 {% endblock %}
 <!--  -->
