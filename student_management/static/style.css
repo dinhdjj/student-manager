@@ -1,0 +1,12 @@
+body{
+    background-color:lightblue;
+    color: darkblue;
+}
+h1{
+    text-align:center;
+}
+form{
+    position: relative;
+    text-align:center;
+
+}
