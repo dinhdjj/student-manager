@@ -34,3 +34,17 @@
 ```command
     pip freeze > requirements.txt
 ```
+
+
+## Beautiful alert
+
+```javascript
+    cuteAlert({
+        type: 'warning', // "error", "info", "question"
+        title: 'this is title',
+        message: 'message ne',
+        buttonText: 'bt' // optional
+    }).then((data)=>{
+        console.log(data);
+    });
+```
