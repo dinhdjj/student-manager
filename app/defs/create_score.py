@@ -1,4 +1,5 @@
 from flask import render_template, request
+from flask_login import current_user
 
 from app import db
 from app.models import Classroom, Subject
@@ -6,6 +7,9 @@ from app.utils import get_or_create_student_subjects, listToString
 
 
 def create_score(class_id, subject_id):
+    if(current_user.is_teacher == False):
+        return render_template('page/403.html')
+
     errors = {}
     successes = {}
     classroom = Classroom.query.get(class_id)
