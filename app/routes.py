@@ -6,6 +6,7 @@ from .defs.level import level_manage, add_or_update_level, delete_level
 from .defs.classroom import class_room, class_info, add_class
 from .defs.change_password import change_password
 from .defs.create_student import create_student
+from .defs.create_score import create_score
 
 
 def define_routes(app):
@@ -25,3 +26,6 @@ def define_routes(app):
     app.route('/change_password', methods=['GET', 'POST'])(change_password)
 
     app.route('/student/create', methods=['GET', 'POST'])(create_student)
+
+    app.route('/create-score/<class_id>/<subject_id>',
+              methods=['GET', 'POST'])(create_score)

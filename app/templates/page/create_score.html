@@ -1,0 +1,73 @@
+{% extends 'layout/layout.html' %}
+<!--  -->
+{% set active_page = 'create_score' %}
+
+<!--  -->
+{% block content %}
+<!--  -->
+
+<main class="container">
+    <h1>Vào điểm môn {{ subject }} cho lớp {{ classroom }}</h1>
+
+    <form class="col border" style="padding: 18px" method="POST">
+        <div style="color: red; margin-top: 6px">
+            Mỗi điểm phải cách nhau bằng dấu phẩy (,)
+        </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Họ và tên</th>
+                    <th scope="col">Điểm 15 phút</th>
+                    <th scope="col">Điểm 45 phút</th>
+                    <th scope="col">Điểm cuối kỳ</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ss in sss %}
+                <tr>
+                    <th scope="row">{{ ss.student }}</th>
+                    <th scope="row" class="form-group">
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="scores[{{ ss.id }}][test15]"
+                            value="{{ listToString(ss.test15) if ss.test15 else '' }}"
+                        />
+                    </th>
+                    <th scope="row" class="form-group">
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="scores[{{ ss.id }}][test45]"
+                            value="{{ listToString(ss.test45) if ss.test45 else '' }}"
+                        />
+                    </th>
+                    <th scope="row" class="form-group">
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="scores[{{ ss.id }}][final_test]"
+                            value="{{ ss.final_test if ss.final_test else '' }}"
+                        />
+                    </th>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% if errors.get('result') %}
+        <div style="color: red; margin-top: 6px">
+            {{ errors.get('result') }}
+        </div>
+        {% endif %} {% if successes.get('result') %}
+        <div style="color: green; margin-top: 6px">
+            {{ successes.get('result') }}
+        </div>
+        {% endif %}
+        <button type="submit" class="btn btn-primary">Lưu</button>
+    </form>
+</main>
+
+<!--  -->
+{% endblock %}
+<!--  -->
