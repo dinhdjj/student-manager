@@ -1,5 +1,5 @@
 import enum
-from sqlalchemy import Column, Integer, String, DateTime, Boolean, Enum, JSON
+from sqlalchemy import Column, Integer, String, DateTime, Boolean, Enum, JSON, Float
 from datetime import datetime
 from flask_login import UserMixin
 
@@ -59,10 +59,10 @@ class SubjectStudent(BaseModel):
     student_id = Column(Integer, ForeignKey('student.id'), nullable=False)
     s1_test15 = Column(JSON)
     s1_test45 = Column(JSON)
-    s1_final_test = Column(Integer)
+    s1_final_test = Column(Float)
     s2_test15 = Column(JSON)
     s2_test45 = Column(JSON)
-    s2_final_test = Column(Integer)
+    s2_final_test = Column(Float)
 
     subject = relationship('Subject', backref='subject_students')
     student = relationship('Student', backref='subject_students')

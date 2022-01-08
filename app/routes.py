@@ -27,5 +27,5 @@ def define_routes(app):
 
     app.route('/student/create', methods=['GET', 'POST'])(create_student)
 
-    app.route('/create-score/<class_id>/<subject_id>',
+    app.route('/create-score/<class_id>/<subject_id>/<int:semester>',
               methods=['GET', 'POST'])(create_score)
