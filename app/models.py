@@ -3,7 +3,7 @@ from sqlalchemy import Column, Integer, String, DateTime, Boolean, Enum, JSON
 from datetime import datetime
 from flask_login import UserMixin
 
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import backref, relationship
 from sqlalchemy.sql.schema import ForeignKey
 
 from . import db
@@ -90,6 +90,7 @@ class Subject(BaseModel):
     classroom_id = Column(Integer, ForeignKey('classroom.id'), nullable=False)
     classroom = relationship('Classroom', backref='subjects', lazy=True)
     semester = Column(Enum(SemesterEnum), nullable=False)
+    teacher_id = Column(Integer, ForeignKey('user.id'), nullable=False)
 
     def __str__(self):
         return self.name
