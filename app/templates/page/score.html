@@ -1,0 +1,37 @@
+{% extends 'layout/layout.html' %}
+<!--  -->
+{% set active_page = 'score' %}
+
+<!--  -->
+{% block content %}
+<!--  -->
+
+<main class="container">
+    <h1>
+        Điểm trung bình lớp
+        <span style="color: rgb(70, 173, 110)">{{ classroom }}</span>
+    </h1>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Họ và tên</th>
+                <th scope="col">Điểm TB HK1</th>
+                <th scope="col">Điểm TB HK2</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for score in scores %}
+            <tr>
+                <th scope="row">{{ score.name }}</th>
+                <th scope="row">{{ score.s1 }}</th>
+                <th scope="row">{{ score.s2 }}</th>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</main>
+
+<!--  -->
+{% endblock %}
+<!--  -->
