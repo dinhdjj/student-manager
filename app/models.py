@@ -15,11 +15,6 @@ class GenderEnum(enum.Enum):
     other = 3
 
 
-class SemesterEnum(enum.Enum):
-    first = 1
-    second = 2
-
-
 class BaseModel(db.Model):
     __abstract__ = True
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -59,9 +54,12 @@ class SubjectStudent(BaseModel):
     __name__ = 'subject_student'
     subject_id = Column(Integer, ForeignKey('subject.id'), nullable=False)
     student_id = Column(Integer, ForeignKey('student.id'), nullable=False)
-    test15 = Column(JSON)
-    test45 = Column(JSON)
-    final_test = Column(Integer)
+    s1_test15 = Column(JSON)
+    s1_test45 = Column(JSON)
+    s1_final_test = Column(Integer)
+    s2_test15 = Column(JSON)
+    s2_test45 = Column(JSON)
+    s2_final_test = Column(Integer)
 
     subject = relationship('Subject', backref='subject_students')
     student = relationship('Student', backref='subject_students')
@@ -89,7 +87,6 @@ class Subject(BaseModel):
     description = Column(String(500), nullable=False)
     classroom_id = Column(Integer, ForeignKey('classroom.id'), nullable=False)
     classroom = relationship('Classroom', backref='subjects', lazy=True)
-    semester = Column(Enum(SemesterEnum), nullable=False)
     teacher_id = Column(Integer, ForeignKey('user.id'), nullable=False)
 
     def __str__(self):
