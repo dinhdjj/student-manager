@@ -7,7 +7,13 @@
 <!--  -->
 
 <main class="container">
-    <h1>Vào điểm môn {{ subject }} cho lớp {{ classroom }}</h1>
+    <h1>
+        Vào điểm môn
+        <span style="color: rgb(70, 173, 110)">
+            {{ '' + subject.__str__() + '-' + 'Kỳ ' + semester[1] }}
+        </span>
+        cho lớp <span style="color: rgb(70, 173, 110)">{{ classroom }}</span>
+    </h1>
 
     <form class="col border" style="padding: 18px" method="POST">
         <div style="color: red; margin-top: 6px">
@@ -31,7 +37,7 @@
                             type="text"
                             class="form-control"
                             name="scores[{{ ss.id }}][test15]"
-                            value="{{ listToString(ss.test15) if ss.test15 else '' }}"
+                            value="{{ listToString(ss[semester+'_test15']) if ss[semester+'_test15'] else '' }}"
                         />
                     </th>
                     <th scope="row" class="form-group">
@@ -39,7 +45,7 @@
                             type="text"
                             class="form-control"
                             name="scores[{{ ss.id }}][test45]"
-                            value="{{ listToString(ss.test45) if ss.test45 else '' }}"
+                            value="{{ listToString(ss[semester+'_test45']) if ss[semester+'_test45'] else '' }}"
                         />
                     </th>
                     <th scope="row" class="form-group">
@@ -47,7 +53,7 @@
                             type="text"
                             class="form-control"
                             name="scores[{{ ss.id }}][final_test]"
-                            value="{{ ss.final_test if ss.final_test else '' }}"
+                            value="{{ ss[semester+'_final_test'] if ss[semester+'_final_test'] else '' }}"
                         />
                     </th>
                 </tr>

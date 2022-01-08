@@ -1,9 +1,9 @@
 import enum
-from sqlalchemy import Column, Integer, String, DateTime, Boolean, Enum, JSON
+from sqlalchemy import Column, Integer, String, DateTime, Boolean, Enum, JSON, Float
 from datetime import datetime
 from flask_login import UserMixin
 
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import backref, relationship
 from sqlalchemy.sql.schema import ForeignKey
 
 from . import db
@@ -28,6 +28,9 @@ class User(BaseModel, UserMixin):
     is_admin = Column(Boolean, default=False)
     is_teacher = Column(Boolean, default=False)
     is_staff = Column(Boolean, default=False)
+
+    def __str__(self) -> str:
+        return self.name
 
 
 class Policy(BaseModel):
@@ -54,9 +57,12 @@ class SubjectStudent(BaseModel):
     __name__ = 'subject_student'
     subject_id = Column(Integer, ForeignKey('subject.id'), nullable=False)
     student_id = Column(Integer, ForeignKey('student.id'), nullable=False)
-    test15 = Column(JSON)
-    test45 = Column(JSON)
-    final_test = Column(Integer)
+    s1_test15 = Column(JSON)
+    s1_test45 = Column(JSON)
+    s1_final_test = Column(Float)
+    s2_test15 = Column(JSON)
+    s2_test45 = Column(JSON)
+    s2_final_test = Column(Float)
 
     subject = relationship('Subject', backref='subject_students')
     student = relationship('Student', backref='subject_students')
@@ -82,8 +88,10 @@ class Student(BaseModel):
 class Subject(BaseModel):
     name = Column(String(50), nullable=False, unique=True)
     description = Column(String(500), nullable=False)
-    level_id = Column(Integer, ForeignKey('level.id'), nullable=False)
-    level = relationship('Level', backref='subjects', lazy=True)
+    classroom_id = Column(Integer, ForeignKey('classroom.id'), nullable=False)
+    classroom = relationship('Classroom', backref='subjects', lazy=True)
+    teacher_id = Column(Integer, ForeignKey('user.id'), nullable=False)
+    teacher = relationship('User', backref='subjects', lazy=True)
 
     def __str__(self):
         return self.name
@@ -92,6 +100,7 @@ class Subject(BaseModel):
 class Level(BaseModel):
     name = Column(String(50), nullable=False, unique=True)
     description = Column(String(500), nullable=False)
+    subject_names = Column(JSON, nullable=False)
 
     def __str__(self):
         return self.name
