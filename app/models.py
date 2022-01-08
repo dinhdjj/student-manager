@@ -29,6 +29,9 @@ class User(BaseModel, UserMixin):
     is_teacher = Column(Boolean, default=False)
     is_staff = Column(Boolean, default=False)
 
+    def __str__(self) -> str:
+        return self.name
+
 
 class Policy(BaseModel):
     key = Column(String(50), nullable=False, unique=True)
@@ -88,6 +91,7 @@ class Subject(BaseModel):
     classroom_id = Column(Integer, ForeignKey('classroom.id'), nullable=False)
     classroom = relationship('Classroom', backref='subjects', lazy=True)
     teacher_id = Column(Integer, ForeignKey('user.id'), nullable=False)
+    teacher = relationship('User', backref='subjects', lazy=True)
 
     def __str__(self):
         return self.name
