@@ -15,6 +15,11 @@ class GenderEnum(enum.Enum):
     other = 3
 
 
+class SemesterEnum(enum.Enum):
+    first = 1
+    second = 2
+
+
 class BaseModel(db.Model):
     __abstract__ = True
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -82,8 +87,9 @@ class Student(BaseModel):
 class Subject(BaseModel):
     name = Column(String(50), nullable=False, unique=True)
     description = Column(String(500), nullable=False)
-    level_id = Column(Integer, ForeignKey('level.id'), nullable=False)
-    level = relationship('Level', backref='subjects', lazy=True)
+    classroom_id = Column(Integer, ForeignKey('classroom.id'), nullable=False)
+    classroom = relationship('Classroom', backref='subjects', lazy=True)
+    semester = Column(Enum(SemesterEnum), nullable=False)
 
     def __str__(self):
         return self.name
@@ -92,6 +98,7 @@ class Subject(BaseModel):
 class Level(BaseModel):
     name = Column(String(50), nullable=False, unique=True)
     description = Column(String(500), nullable=False)
+    subject_names = Column(JSON, nullable=False)
 
     def __str__(self):
         return self.name
