@@ -128,6 +128,7 @@ class Classroom(BaseModel):
     description = Column(String(500), nullable=False)
     level_id = Column(Integer, ForeignKey("level.id"), nullable=False)
     level = relationship("Level", backref="classrooms", lazy=True)
+    year = Column(Integer, nullable=False)
     students = relationship(
         "Student", secondary='classroom_student', backref="classrooms", lazy=True)
 
