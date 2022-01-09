@@ -1,0 +1,47 @@
+{% extends 'layout/layout.html' %}
+<!--  -->
+{% set active_page = 'home' %}
+
+<!--  -->
+{% block content %}
+<!--  -->
+
+<main class="container">
+    <h1>
+        Báo cáo thông kê môn
+        <span class="tw-text-green-500"> {{ subject_name }}</span> học kỳ
+        <span class="tw-text-green-500">{{ semester }}</span> năm học
+        <span class="tw-text-green-500">{{ year }}</span>
+    </h1>
+
+    <table class="table table-striped">
+        <tr>
+            <th>Lớp</th>
+            <th>Sĩ số</th>
+            <th>Số lượng đạt</th>
+            <th>Tỷ lệ</th>
+        </tr>
+
+        {% for statistic in statistics %}
+        <tr>
+            <td>{{ statistic.classroom }}</td>
+            <td>{{ statistic.amount }}</td>
+            <td class="tw-text-green-500">{{ statistic.success }}</td>
+
+            {% if round((statistic.success / statistic.amount) * 100, 2) > 80 %}
+            <td class="tw-text-green-500">
+                {{ round((statistic.success / statistic.amount) * 100, 2) }}%
+            </td>
+            {% else %}
+            <td class="tw-text-red-500">
+                {{ round((statistic.success / statistic.amount) * 100, 2) }}%
+            </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+</main>
+
+<!--  -->
+{% endblock %}
+<!--  -->

@@ -8,6 +8,7 @@ from .defs.change_password import change_password
 from .defs.create_student import create_student
 from .defs.create_score import create_score
 from .defs.get_score import get_score
+from .defs.statistic_subject import statistic_subject
 
 
 def define_routes(app):
@@ -32,3 +33,6 @@ def define_routes(app):
               methods=['GET', 'POST'])(create_score)
 
     app.route('/scores/<classroom_id>', methods=['GET'])(get_score)
+
+    app.route('/statistic-subject/<subject_name>/<int:semester>/<int:year>',
+              methods=['GET'])(statistic_subject)

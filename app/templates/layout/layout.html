@@ -22,6 +22,17 @@
             rel="stylesheet"
             href="{{ url_for('static', filename='cute-alert-master/style.css') }}"
         />
+
+        <!-- Tailwindcss -->
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script>
+            tailwind.config = {
+                prefix: "tw-",
+                corePlugins: {
+                    preflight: false,
+                },
+            };
+        </script>
     </head>
     <body>
         {% block header %} {% include 'layout/header.html' %} {% endblock %}
