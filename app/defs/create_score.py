@@ -7,7 +7,7 @@ from app.utils import get_or_create_student_subjects, listToString
 
 
 @login_required
-def create_score(class_id, subject_id, semester):
+def create_score(subject_id, semester):
     if(semester != 1 and semester != 2):
         return render_template('page/404.html')
 
@@ -16,21 +16,13 @@ def create_score(class_id, subject_id, semester):
 
     errors = {}
     successes = {}
-    classroom = Classroom.query.get(class_id)
     subject = Subject.query.get(subject_id)
-
-    if(not classroom or not subject):
-        return render_template('page/404.html')
-
-    is_exist = subject.classroom_id == classroom.id
-    if(not is_exist):
-        return render_template('page/404.html')
 
     if(subject.teacher_id != current_user.id):
         return render_template('page/403.html')
 
     semester = 's' + str(semester)
-    students = classroom.students
+    students = subject.classroom.students
     sss = get_or_create_student_subjects(students, subject)
 
     if(request.method == 'POST'):
@@ -50,7 +42,7 @@ def create_score(class_id, subject_id, semester):
         db.session.commit()
         successes['result'] = 'Lưu thành công'
 
-    return render_template('page/create_score.html', errors=errors, successes=successes, classroom=classroom, subject=subject, students=students, sss=sss, listToString=listToString, semester=semester)
+    return render_template('page/create_score.html', errors=errors, successes=successes, subject=subject, students=students, sss=sss, listToString=listToString, semester=semester)
 
 
 def parse_scores(string):

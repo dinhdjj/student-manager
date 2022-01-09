@@ -9,6 +9,7 @@ from .defs.create_student import create_student
 from .defs.create_score import create_score
 from .defs.get_score import get_score
 from .defs.statistic_subject import statistic_subject
+from .defs.create_score_firstly import create_score_firstly
 
 
 def define_routes(app):
@@ -29,8 +30,8 @@ def define_routes(app):
 
     app.route('/student/create', methods=['GET', 'POST'])(create_student)
 
-    # TODO: attach to layout
-    app.route('/create-score/<class_id>/<subject_id>/<int:semester>',
+    app.route('/create-score', methods=['GET'])(create_score_firstly)
+    app.route('/create-score/<int:subject_id>/<int:semester>',
               methods=['GET', 'POST'])(create_score)
 
     app.route('/scores/<classroom_id>', methods=['GET'])(get_score)

@@ -12,7 +12,8 @@
         <span style="color: rgb(70, 173, 110)">
             {{ '' + subject.__str__() + '-' + 'Kỳ ' + semester[1] }}
         </span>
-        cho lớp <span style="color: rgb(70, 173, 110)">{{ classroom }}</span>
+        cho lớp
+        <span style="color: rgb(70, 173, 110)">{{ subject.classroom }}</span>
     </h1>
 
     <form class="col border" style="padding: 18px" method="POST">
