@@ -30,7 +30,7 @@
     <script>
         labels.push("{{ statistic.name }}");
         data.push(
-            "{{ round((statistic.success / statistic.amount) * 100, 2) }}"
+            "{{ round((statistic.success / statistic.amount) * 100, 2) if statistic.amount != 0 else 0 }}"
         );
 
         red = Math.floor(Math.random() * 255);
@@ -81,15 +81,10 @@
             <td>{{ statistic.amount }}</td>
             <td class="tw-text-green-500">{{ statistic.success }}</td>
 
-            {% if round((statistic.success / statistic.amount) * 100, 2) > 80 %}
             <td class="tw-text-green-500">
-                {{ round((statistic.success / statistic.amount) * 100, 2) }}%
+                {{ round((statistic.success / statistic.amount) * 100, 2) if
+                statistic.amount != 0 else 0}}%
             </td>
-            {% else %}
-            <td class="tw-text-red-500">
-                {{ round((statistic.success / statistic.amount) * 100, 2) }}%
-            </td>
-            {% endif %}
         </tr>
         {% endfor %}
     </table>

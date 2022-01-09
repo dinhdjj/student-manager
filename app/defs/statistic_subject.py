@@ -6,7 +6,8 @@ from ..models import Subject, SubjectStudent
 
 @login_required
 def statistic_subject(subject_name, semester, year):
-    subjects = Subject.query.filter_by(name=subject_name).all()
+    subjects = Subject.query.filter_by(name=subject_name).filter(
+        Subject.classroom.has(year=year)).all()
 
     if(semester != 1 and semester != 2):
         return render_template('page/404.html')
@@ -36,29 +37,30 @@ def statistic_subject(subject_name, semester, year):
             s2_sum = 0
             s2_coefficient = 0
 
-            if(subject_student.s1_test15):
-                for test in subject_student.s1_test15:
-                    s1_sum += test
-                    s1_coefficient += 1
-            if(subject_student.s1_test45):
-                for test in subject_student.s1_test45:
-                    s1_sum += test * 2
-                    s1_coefficient += 2
-            if(subject_student.s1_final_test):
-                s1_sum += subject_student.s1_final_test * 3
-                s1_coefficient += 3
+            if(subject_student):
+                if(subject_student.s1_test15):
+                    for test in subject_student.s1_test15:
+                        s1_sum += test
+                        s1_coefficient += 1
+                if(subject_student.s1_test45):
+                    for test in subject_student.s1_test45:
+                        s1_sum += test * 2
+                        s1_coefficient += 2
+                if(subject_student.s1_final_test):
+                    s1_sum += subject_student.s1_final_test * 3
+                    s1_coefficient += 3
 
-            if(subject_student.s2_test15):
-                for test in subject_student.s2_test15:
-                    s2_sum += test
-                    s2_coefficient += 1
-            if(subject_student.s2_test45):
-                for test in subject_student.s2_test45:
-                    s2_sum += test * 2
-                    s2_coefficient += 2
-            if(subject_student.s2_final_test):
-                s2_sum += subject_student.s2_final_test * 3
-                s2_coefficient += 3
+                if(subject_student.s2_test15):
+                    for test in subject_student.s2_test15:
+                        s2_sum += test
+                        s2_coefficient += 1
+                if(subject_student.s2_test45):
+                    for test in subject_student.s2_test45:
+                        s2_sum += test * 2
+                        s2_coefficient += 2
+                if(subject_student.s2_final_test):
+                    s2_sum += subject_student.s2_final_test * 3
+                    s2_coefficient += 3
 
             if semester == 1:
                 if(s1_coefficient == 0):

@@ -1,0 +1,49 @@
+{% extends 'layout/layout.html' %}
+<!--  -->
+{% set active_page = 'home' %}
+
+<!--  -->
+{% block content %}
+<!--  -->
+
+<main>
+    <h1>Thống kế báo cáo môn học</h1>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Tên</th>
+                <th scope="col">Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for subject in subjects %}
+            <tr>
+                <th scope="row">{{ subject.name }}</th>
+                <th scope="row">
+                    {% for year in subject.years %}
+                    <a
+                        href="{{ url_for('statistic_subject', subject_name=subject.name, semester=1, year=year ) }}"
+                    >
+                        <button type="button" class="btn btn-primary">
+                            Kỳ I - năm {{ year }}
+                        </button>
+                    </a>
+                    <a
+                        href="{{ url_for('statistic_subject', subject_name=subject.name, semester=2, year=year ) }}"
+                    >
+                        <button type="button" class="btn btn-primary">
+                            Kỳ II - năm {{ year }}
+                        </button>
+                    </a>
+                    {% endfor %}
+                </th>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</main>
+
+<!--  -->
+{% endblock %}
+<!--  -->
