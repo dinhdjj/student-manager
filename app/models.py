@@ -86,7 +86,7 @@ class Student(BaseModel):
 
 
 class Subject(BaseModel):
-    name = Column(String(50), nullable=False, unique=True)
+    name = Column(String(50), nullable=False)
     description = Column(String(500), nullable=False)
     classroom_id = Column(Integer, ForeignKey('classroom.id'), nullable=False)
     classroom = relationship('Classroom', backref='subjects', lazy=True)
