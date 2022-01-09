@@ -38,10 +38,41 @@
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     </head>
     <body>
-        {% block header %} {% include 'layout/header.html' %} {% endblock %}
-        <!--  -->
-        {% block content %} {% endblock %}
-        <!--  -->
+        <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+            <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="/">
+                Student Manager
+            </a>
+
+            <ul class="navbar-nav px-3">
+                <li class="nav-item text-nowrap">
+                    {% if current_user.is_authenticated %}
+                    <form action="/logout" method="POST">
+                        <button class="btn btn-outline-primary" type="submit">
+                            Đăng xuất
+                        </button>
+                    </form>
+                    {% else %}
+                    <a class="nav-link" href="{{url_for('login')}}">
+                        Đăng nhập
+                    </a>
+                    {% endif %}
+                </li>
+            </ul>
+        </nav>
+
+        <div class="container-fluid">
+            <div class="row">
+                {% block navbar %} {% include 'layout/navbar.html' %}
+                {%endblock%}
+
+                <main class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+                    <!--  -->
+                    {% block content %} {% endblock %}
+                    <!--  -->
+                </main>
+            </div>
+        </div>
+
         {% block footer %} {% include 'layout/footer.html' %} {% endblock %}
 
         <script src="{{ url_for('static', filename='cute-alert-master/cute-alert.js') }}"></script>

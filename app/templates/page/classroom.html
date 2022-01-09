@@ -7,38 +7,45 @@
 <!--  -->
 
 <main>
-  <h1>Quan Ly lop hoc</h1>
+    <h1>Quan Ly lop hoc</h1>
 </main>
-    <div class="container">
-        {% if result %}
-            <div class=" alert alert-danger">
-                {{ result }}
-            </div>
-        {% endif %}
-        <div class="text-center">
-            <a href="{{ url_for('add_class') }}">Them lop hoc</a>
-        </div>
-        {% for level in l %}
-        <table class="table">
-                <h1>Khoi {{ level }}</h1>
-                <tr>
-                    <th>Ten Lop</th>
-                    <th>Mo ta</th>
-                    <th>Activity</th>
-                </tr>
-
-            {% for i in c %}
-                {% if level.id == i.level_id %}
-                <tr>
-                    <th> <a href="{{ url_for('class_info', id=i.id) }}">Lop {{ i.name }}</a></th>
-                    <th>{{ i.description }}</th>
-                    <th><a href="{{ url_for('add_class', id = i.id) }}">Sua</a><br><a href="">Xoa</a></th>
-                </tr>
-                {% endif %}
-            {% endfor %}
-            {% endfor %}
-        </table>
+<div class="container">
+    {% if result %}
+    <div class="alert alert-danger">{{ result }}</div>
+    {% endif %}
+    <div class="text-center">
+        <a href="{{ url_for('add_class') }}">Them lop hoc</a>
     </div>
+    {% for level in l %}
+    <table class="table">
+        <h1>Khoi {{ level }}</h1>
+        <tr>
+            <th>Ten Lop</th>
+            <th>Mo ta</th>
+            <th>Activity</th>
+        </tr>
+
+        {% for i in c %} {% if level.id == i.level_id %}
+        <tr>
+            <th>
+                <a href="{{ url_for('class_info', id=i.id) }}"
+                    >Lop {{ i.name }}</a
+                >
+            </th>
+            <th>{{ i.description }}</th>
+            <th>
+                <a href="{{ url_for('add_class', id = i.id) }}">Sua</a>
+                <br />
+                <a href=""> Xoa </a>
+                <br />
+                <a href="{{ url_for('get_score', classroom_id = i.id) }}">
+                    Xem điểm
+                </a>
+            </th>
+        </tr>
+        {% endif %} {% endfor %} {% endfor %}
+    </table>
+</div>
 <!--  -->
 {% endblock %}
 <!--  -->

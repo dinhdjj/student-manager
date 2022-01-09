@@ -29,10 +29,12 @@ def define_routes(app):
 
     app.route('/student/create', methods=['GET', 'POST'])(create_student)
 
+    # TODO: attach to layout
     app.route('/create-score/<class_id>/<subject_id>/<int:semester>',
               methods=['GET', 'POST'])(create_score)
 
     app.route('/scores/<classroom_id>', methods=['GET'])(get_score)
 
+    # TODO: attach to layout
     app.route('/statistic-subject/<subject_name>/<int:semester>/<int:year>',
               methods=['GET'])(statistic_subject)
