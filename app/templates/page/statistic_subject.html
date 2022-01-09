@@ -14,6 +14,59 @@
         <span class="tw-text-green-500">{{ year }}</span>
     </h1>
 
+    <canvas id="myChart"></canvas>
+
+    <script>
+        let labels = [];
+        let data = [];
+        let backgroundColor = [];
+        let borderColor = [];
+        let red = 0;
+        let green = 0;
+        let blue = 0;
+    </script>
+
+    {% for statistic in statistics %}
+    <script>
+        labels.push("{{ statistic.name }}");
+        data.push(
+            "{{ round((statistic.success / statistic.amount) * 100, 2) }}"
+        );
+
+        red = Math.floor(Math.random() * 255);
+        green = Math.floor(Math.random() * 255);
+        blue = Math.floor(Math.random() * 255);
+        backgroundColor.push(`rgba(${red}, ${green}, ${blue}, 0.2)`);
+        borderColor.push(`rgba(${red}, ${green}, ${blue}, 1)`);
+    </script>
+    {% endfor %}
+
+    <script>
+        const ctx = document.getElementById("myChart");
+        const myChart = new Chart(ctx, {
+            type: "bar",
+            data: {
+                labels,
+                datasets: [
+                    {
+                        label: "Tỷ lệ qua môn (%)",
+                        data,
+                        backgroundColor,
+                        borderColor,
+                        borderWidth: 1,
+                    },
+                ],
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                    },
+                },
+            },
+        });
+    </script>
+
     <table class="table table-striped">
         <tr>
             <th>Lớp</th>
