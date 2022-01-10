@@ -36,7 +36,7 @@ class User(BaseModel, UserMixin):
 class Policy(BaseModel):
     key = Column(String(50), nullable=False, unique=True)
     name = Column(String(50), nullable=False, unique=True)
-    value = Column(String(50), nullable=False)
+    value = Column(Integer, nullable=False)
     description = Column(String(500), nullable=False)
 
     def __str__(self):
@@ -138,6 +138,39 @@ class Classroom(BaseModel):
 
 def migrate():
     db.create_all()
+
+    db.session.add(Policy(key='min_age', name='tuổi nhập học tối thiểu',
+                          value=15, description='Tuổi nhập học tối thiểu'))
+    db.session.add(Policy(key='max_age', name='tuổi nhập học tối đa',
+                          value=20, description='Tuổi nhập học tối đa'))
+
+    db.session.add(Policy(key='max_amount', name='số lượng học sinh tối đa',
+                          value=40, description='Số lượng học sinh tối đa'))
+
+    db.session.add(Policy(key='min_test15', name='số lượng tối thiểu điểm 15 phút',
+                          value=1, description='số lượng tối thiểu điểm 15 phút'))
+    db.session.add(Policy(key='max_test15', name='số lượng tối đa điểm 15 phút',
+                          value=5, description='số lượng tối đa điểm 15 phút'))
+
+    db.session.add(Policy(key='min_test45', name='số lượng tối thiểu điểm 45 phút',
+                          value=1, description='số lượng tối thiểu điểm 45 phút'))
+    db.session.add(Policy(key='max_test45', name='số lượng tối đa điểm 45 phút',
+                          value=3, description='số lượng tối đa điểm 45 phút'))
+
+    db.session.add(Policy(key='final_test', name='số lượng điểm cuối kỳ',
+                          value=1, description='số lượng điểm cuối kỳ'))
+
+    db.session.add(Policy(key='min_success', name='điểm tối thiểu để đạt',
+                          value=5, description='điểm tối thiểu để đạt'))
+
+    db.session.add(Level(name='10', description='Khối 10', subject_names=[
+                   'toán', 'văn', 'tiếng anh', 'sử', 'địa']))
+    db.session.add(Level(name='11', description='Khối 11', subject_names=[
+        'toán', 'văn', 'tiếng anh', 'sử', 'địa']))
+    db.session.add(Level(name='12', description='Khối 12', subject_names=[
+        'toán', 'văn', 'tiếng anh', 'sử', 'địa']))
+
+    db.session.commit()
 
 
 if __name__ == '__main__':

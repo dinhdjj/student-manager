@@ -1,0 +1,70 @@
+{% extends 'layout/layout.html' %}
+<!--  -->
+{% set active_page = 'home' %}
+
+<!--  -->
+{% block content %}
+<!--  -->
+
+<main>
+    <h1>Quản lý quy định</h1>
+
+    <div class="row" style="margin: 20px 0">
+        <form class="col border" style="padding: 18px" method="POST">
+            <div class="form-group">
+                <label for="max_amount">Số lượng học sinh tối đa một lớp</label>
+                <input
+                    type="number"
+                    class="form-control"
+                    id="max_amount"
+                    name="max_amount"
+                    value="{{ request.form.get('max_amount') if request.form.get('max_amount') else max_amount_policy.value }}"
+                />
+                {% if errors.get('max_amount') %}
+                <div style="color: red">{{ errors.get('max_amount') }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="min_age">Tuổi nhập học tối thiểu</label>
+                <input
+                    type="number"
+                    class="form-control"
+                    name="min_age"
+                    value="{{ request.form.get('min_age') if request.form.get('min_age') else min_age_policy.value }}"
+                />
+                {% if errors.get('min_age') %}
+                <div style="color: red">{{ errors.get('min_age') }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="max_age">Tuổi nhập học tối đa</label>
+                <input
+                    type="number"
+                    class="form-control"
+                    name="max_age"
+                    value="{{ request.form.get('max_age') if request.form.get('max_age') else max_age_policy.value }}"
+                />
+                {% if errors.get('max_age') %}
+                <div style="color: red">{{ errors.get('max_age') }}</div>
+                {% endif %}
+            </div>
+
+            {% if errors.get('result') %}
+            <div style="color: red; margin-top: 6px">
+                {{ errors.get('result') }}
+            </div>
+            {% endif %} {% if successes.get('result') %}
+            <div style="color: green; margin-top: 6px">
+                {{ successes.get('result') }}
+            </div>
+            {% endif %}
+            <button type="submit" class="btn btn-primary">Lưu</button>
+        </form>
+    </div>
+</main>
+
+<!--  -->
+{% endblock %}
+<!--  -->
