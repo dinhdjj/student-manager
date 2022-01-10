@@ -15,6 +15,8 @@ def create_student():
 
     errors = {}
     successes = {}
+    min_age_policy = Policy.query.filter_by(key='min_age').first()
+    max_age_policy = Policy.query.filter_by(key='max_age').first()
 
     if(request.method == 'POST'):
         name = request.form.get('name')
@@ -37,9 +39,6 @@ def create_student():
         else:
             age = (datetime.now() - datetime.strptime(birth_date, "%Y-%m-%d")).days
             age = ceil(age / 365)
-            print(age)
-            min_age_policy = Policy.query.filter_by(key='min_age').first()
-            max_age_policy = Policy.query.filter_by(key='max_age').first()
             if(age < min_age_policy.value):
                 errors['birth_date'] = 'Tuổi học sinh phải lớn hơn hoặc bằng ' + \
                     str(min_age_policy.value)
@@ -57,4 +56,4 @@ def create_student():
             db.session.commit()
             successes['result'] = 'Tiếp nhận thành công học sinh'
 
-    return render_template('page/create_student.html', errors=errors, successes=successes)
+    return render_template('page/create_student.html', errors=errors, successes=successes, min_age_policy=min_age_policy, max_age_policy=max_age_policy)
