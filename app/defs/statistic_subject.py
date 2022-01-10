@@ -1,7 +1,7 @@
 from flask import render_template
 from flask_login import login_required
 
-from ..models import Subject, SubjectStudent
+from ..models import Policy, Subject, SubjectStudent
 
 
 @login_required
@@ -15,6 +15,7 @@ def statistic_subject(subject_name, semester, year):
     if(not len(subjects)):
         return render_template('page/404.html')
 
+    min_success_policy = Policy.query.filter_by(key='min_success').first()
     statistics = []
     for subject in subjects:
         classroom = subject.classroom
@@ -65,14 +66,14 @@ def statistic_subject(subject_name, semester, year):
             if semester == 1:
                 if(s1_coefficient == 0):
                     pass
-                elif(s1_sum / s1_coefficient >= 5):
+                elif(s1_sum / s1_coefficient >= min_success_policy.value):
                     statistic['success'] += 1
                 else:
                     statistic['fail'] += 1
             else:
                 if(s2_coefficient == 0):
                     pass
-                elif(s2_sum / s2_coefficient >= 5):
+                elif(s2_sum / s2_coefficient >= min_success_policy.value):
                     statistic['success'] += 1
                 else:
                     statistic['fail'] += 1
