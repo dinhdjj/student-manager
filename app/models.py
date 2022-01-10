@@ -74,7 +74,7 @@ class SubjectStudent(BaseModel):
 class Student(BaseModel):
     name = Column(String(50), nullable=False)
     email = Column(String(50), nullable=False)
-    phone_number = Column(Integer, nullable=False)
+    phone_number = Column(String(50), nullable=False)
     address = Column(String(50), nullable=False)
     birth_date = Column(DateTime, nullable=False)
     gender = Column(Enum(GenderEnum), nullable=False)
@@ -169,6 +169,9 @@ def migrate():
         'toán', 'văn', 'tiếng anh', 'sử', 'địa']))
     db.session.add(Level(name='12', description='Khối 12', subject_names=[
         'toán', 'văn', 'tiếng anh', 'sử', 'địa']))
+
+    db.session.add(
+        User(name='admin', email='admin@gmail.com', password='password', is_admin=True, is_teacher=True, is_staff=True))
 
     db.session.commit()
 
