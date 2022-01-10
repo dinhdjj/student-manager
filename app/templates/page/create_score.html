@@ -20,6 +20,15 @@
         <div style="color: red; margin-top: 6px">
             Mỗi điểm phải cách nhau bằng dấu phẩy (,)
         </div>
+        <div style="color: red; margin-top: 1px">
+            Điểm 15 phút được phép từ {{ min_test15_policy.value }} đến
+            {{max_test15_policy.value}}
+        </div>
+        <div style="color: red; margin-top: 1px">
+            Điểm 45 phút được phép từ {{ min_test45_policy.value }} đến
+            {{max_test45_policy.value}}
+        </div>
+        <div style="color: red; margin-top: 1px">Điểm cuối kỳ là bắt buộc</div>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -40,6 +49,11 @@
                             name="scores[{{ ss.id }}][test15]"
                             value="{{ listToString(ss[semester+'_test15']) if ss[semester+'_test15'] else '' }}"
                         />
+                        {%if errors.get('scores['+str(ss.id)+'][test15]')%}
+                        <div style="color: red; margin-top: 6px">
+                            {{errors.get('scores['+str(ss.id)+'][test15]')}}
+                        </div>
+                        {% endif %}
                     </th>
                     <th scope="row" class="form-group">
                         <input
@@ -48,6 +62,11 @@
                             name="scores[{{ ss.id }}][test45]"
                             value="{{ listToString(ss[semester+'_test45']) if ss[semester+'_test45'] else '' }}"
                         />
+                        {%if errors.get('scores['+str(ss.id)+'][test45]')%}
+                        <div style="color: red; margin-top: 6px">
+                            {{errors.get('scores['+str(ss.id)+'][test45]')}}
+                        </div>
+                        {% endif %}
                     </th>
                     <th scope="row" class="form-group">
                         <input
@@ -56,6 +75,11 @@
                             name="scores[{{ ss.id }}][final_test]"
                             value="{{ ss[semester+'_final_test'] if ss[semester+'_final_test'] else '' }}"
                         />
+                        {%if errors.get('scores['+str(ss.id)+'][final_test]')%}
+                        <div style="color: red; margin-top: 6px">
+                            {{errors.get('scores['+str(ss.id)+'][final_test]')}}
+                        </div>
+                        {% endif %}
                     </th>
                 </tr>
                 {% endfor %}
