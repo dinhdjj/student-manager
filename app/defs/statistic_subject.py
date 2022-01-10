@@ -1,22 +1,27 @@
-from flask import render_template
+from flask import render_template, request
 from flask_login import login_required
 
-from ..models import Policy, Subject, SubjectStudent
+from ..models import Level, Policy, Subject, SubjectStudent
 
 
 @login_required
 def statistic_subject(subject_name, semester, year):
-    subjects = Subject.query.filter_by(name=subject_name).filter(
-        Subject.classroom.has(year=year)).all()
+    selected_level_id = request.args.get('level_id')
+
+    if selected_level_id:
+        subjects = Subject.query.filter_by(name=subject_name).filter(
+            Subject.classroom.has(year=year), Subject.classroom.has(level_id=selected_level_id)).all()
+    else:
+        subjects = Subject.query.filter_by(name=subject_name).filter(
+            Subject.classroom.has(year=year)).all()
 
     if(semester != 1 and semester != 2):
         return render_template('page/404.html')
 
-    if(not len(subjects)):
-        return render_template('page/404.html')
-
     min_success_policy = Policy.query.filter_by(key='min_success').first()
+    levels = Level.query.all()
     statistics = []
+
     for subject in subjects:
         classroom = subject.classroom
         students = classroom.students
@@ -80,4 +85,4 @@ def statistic_subject(subject_name, semester, year):
 
         statistics.append(statistic)
 
-    return render_template('page/statistic_subject.html', statistics=statistics, year=year, semester=semester, round=round, subject_name=subject_name)
+    return render_template('page/statistic_subject.html', statistics=statistics, year=year, semester=semester, round=round, subject_name=subject_name, levels=levels, str=str)

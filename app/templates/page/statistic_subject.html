@@ -14,8 +14,31 @@
         <span class="tw-text-green-500">{{ year }}</span>
     </h1>
 
-    <canvas id="myChart"></canvas>
+    <form>
+        Lọc theo khối lớp:
 
+        <select id="slect2-levels" name="level_id" style="width: 80px;">
+            <option value="">Tất cả</option>
+            {% for level in levels %}
+            <option value="{{ level.id }}" {{ 'selected="selected"' if request.args.get('level_id') == str(level.id) else ''}} >{{ level.name }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit" class="btn btn-primary">Lọc</button>
+    </form>
+    <script>
+        $(document).ready(function () {
+            $("#slect2-levels").select2();
+        });
+    </script>
+
+    {%if not statistics%}
+    <div style="color: red; margin-top: 6px">
+        Không có dữ liệu
+    </div>
+    {% endif %}
+
+    <canvas id="myChart"></canvas>
     <script>
         let labels = [];
         let data = [];
@@ -25,10 +48,9 @@
         let green = 0;
         let blue = 0;
     </script>
-
     {% for statistic in statistics %}
     <script>
-        labels.push("{{ statistic.name }}");
+        labels.push("{{ statistic.classroom }}");
         data.push(
             "{{ round((statistic.success / statistic.amount) * 100, 2) if statistic.amount != 0 else 0 }}"
         );
@@ -40,7 +62,6 @@
         borderColor.push(`rgba(${red}, ${green}, ${blue}, 1)`);
     </script>
     {% endfor %}
-
     <script>
         const ctx = document.getElementById("myChart");
         const myChart = new Chart(ctx, {
