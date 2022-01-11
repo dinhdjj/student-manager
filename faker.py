@@ -1,11 +1,12 @@
 from app import db
 from app.models import Classroom, ClassroomStudent, Level, Student, Subject, User
+from app.utils import generage_password
 import string
 import random
 
 
 def create_user(name, role, email):
-    password = 'password'
+    password = generage_password('password')
     is_admin = False
     is_teacher = False
     is_staff = False

@@ -2,6 +2,7 @@ import enum
 from sqlalchemy import Column, Integer, String, DateTime, Boolean, Enum, JSON, Float
 from datetime import datetime
 from flask_login import UserMixin
+import hashlib
 
 from sqlalchemy.orm import backref, relationship
 from sqlalchemy.sql.schema import ForeignKey
@@ -171,9 +172,13 @@ def migrate():
         'toán', 'văn', 'tiếng anh', 'sử', 'địa']))
 
     db.session.add(
-        User(name='admin', email='admin@gmail.com', password='password', is_admin=True, is_teacher=True, is_staff=True))
+        User(name='admin', email='admin@gmail.com', password=generage_password('password'), is_admin=True, is_teacher=True, is_staff=True))
 
     db.session.commit()
+
+
+def generage_password(password):
+    return hashlib.md5(password.strip().encode('utf-8')).hexdigest()
 
 
 if __name__ == '__main__':

@@ -1,10 +1,22 @@
+import hashlib
 
 from . import db
 from .models import User, SubjectStudent
 
 
 def check_login(email, password):
-    return User.query.filter_by(email=email, password=password).first()
+    user = User.query.filter_by(email=email).first()
+    if check_password(password, user.password):
+        return user
+    return None
+
+
+def generage_password(password):
+    return hashlib.md5(password.strip().encode('utf-8')).hexdigest()
+
+
+def check_password(checked_password, password):
+    return generage_password(checked_password) == password
 
 
 def get_or_create_student_subjects(students, subject):

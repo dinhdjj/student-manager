@@ -1,6 +1,7 @@
 from flask import render_template, request
 from flask_login import login_required, current_user
 from app import db
+from app.utils import check_password, generage_password
 
 
 @login_required
@@ -23,11 +24,11 @@ def change_password():
         if(password != confirmed_password):
             errors['confirmed_password'] = 'Mật khẩu xác nhận không khớp.'
 
-        if(current_user.password != old_password):
+        if(check_password(old_password, current_user.password)):
             errors['old_password'] = 'Mật khẩu cũ không chính xác.'
 
         if(not errors):
-            current_user.password = password
+            current_user.password = generage_password(password)
             db.session.add(current_user)
             db.session.commit()
             successes['result'] = 'Đổi mật khẩu thành công.'
