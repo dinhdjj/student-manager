@@ -7,45 +7,58 @@
 <!--  -->
 
 <main>
-    <h1>Quan Ly lop hoc</h1>
+  <h1>Quan Ly lop hoc</h1>
 </main>
-<div class="container">
-    {% if result %}
-    <div class="alert alert-danger">{{ result }}</div>
-    {% endif %}
-    <div class="text-center">
-        <a href="{{ url_for('add_class') }}">Them lop hoc</a>
+    <div class="container">
+        {% if err != '' %}
+            <h1 style="color: red">{{ err }}</h1>
+            <a href="{{ url_for('class_manage') }}">Quay lai trang chu</a>
+            {% else %}
+        <div>
+            <a href="{{ url_for('add_update_class') }}">Them Lop Hoc</a>
+        <form method="POST">
+            <div style="float: right">
+                <p><label style="margin-right: 10px">Tim kiem</label><input type="text" name="kw"
+                                                    placeholder="Tim kiem" style=" max-width: 300px">
+                    <button class="btn">Search</button></p>
+            </div>
+        </form>
     </div>
-    {% for level in l %}
-    <table class="table">
-        <h1>Khoi {{ level }}</h1>
-        <tr>
-            <th>Ten Lop</th>
-            <th>Mo ta</th>
-            <th>Activity</th>
-        </tr>
-
-        {% for i in c %} {% if level.id == i.level_id %}
-        <tr>
-            <th>
-                <a href="{{ url_for('class_info', id=i.id) }}"
-                    >Lop {{ i.name }}</a
-                >
-            </th>
-            <th>{{ i.description }}</th>
-            <th>
-                <a href="{{ url_for('add_class', id = i.id) }}">Sua</a>
-                <br />
-                <a href=""> Xoa </a>
-                <br />
-                <a href="{{ url_for('get_score', classroom_id = i.id) }}">
-                    Xem điểm
-                </a>
-            </th>
-        </tr>
-        {% endif %} {% endfor %} {% endfor %}
-    </table>
-</div>
+             <div>
+            <ul class="pagination">
+                {% for i in range(count) %}
+                    <li class="page-item"><a class="page-link" href="{{ url_for('class_manage', page = i + 1) }}">{{ i + 1}}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        <table class="table">
+                <tr>
+                    <th>Ten Lop</th>
+                    <th>Mo ta</th>
+                    <th>Khoi</th>
+                    <th>Nam Hoc</th>
+                    <th>Activity</th>
+                </tr>
+            {% for i in c %}
+                <tr>
+                    <th>
+                        <a href="{{ url_for('class_info', id=i.id) }}">Lop {{ i.name }}</a>
+                    </th>
+                    <th>
+                        {{ i.description }}
+                    </th>
+                    <th>{{ i.level }}</th>
+                    <th>{{ i.year }}</th>
+                    <th>
+                        <a href="{{ url_for('chose_teacher', id = i.id) }}">Chon giao vien</a><br>
+                        <a href="{{ url_for('add_update_class', id = i.id) }}">Sua</a><br>
+                        <a href="{{ url_for('delete_class', id = i.id) }}">Xoa</a>
+                    </th>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+     {% endif %}
 <!--  -->
 {% endblock %}
 <!--  -->

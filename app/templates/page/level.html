@@ -6,15 +6,30 @@
 {% block content %}
 <!--  -->
 <h1>Quan ly Khoi Lop</h1>
-{% if err != '' %}
+<div class="container">
+    {% if err != '' %}
     {{ err }}
     <br>
     <a href="{{ url_for('level_manage') }}">Quay Lai</a>
-{% else %}
-    <div class="text-center">
-    <a href="{{ url_for('add_or_update_level') }}">Them Khoi Lop</a>
-     </div>
-    <table class="table">
+    {% else %}
+    <div>
+        <a href="{{ url_for('add_or_update_level') }}">Them Khoi Lop</a>
+        <form method="POST">
+            <div style="float: right">
+                <p><label style="margin-right: 10px">Tim kiem</label><input type="text" name="kw"
+                                                    placeholder="Tim kiem" style=" max-width: 300px">
+                    <button class="btn">Search</button></p>
+            </div>
+        </form>
+    </div>
+        <div>
+            <ul class="pagination">
+                {% for i in range(count) %}
+              <li class="page-item"><a class="page-link" href="{{ url_for("level_manage", page=i + 1) }}">{{ i + 1 }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    <table class="table" >
         <tr>
             <th>STT</th>
             <th>Ten Khoi Lop</th>
@@ -23,17 +38,19 @@
             <th>Activity</th>
         </tr>
         {% for idx, level in (level) %}
-        <tr>
+        <ul>
             <th>{{ idx + 1 }}</th>
             <th>{{ level.name }}</th>
             <th>{{ level.description}}</th>
             <th>
+            <ul>
             {% for i in c %}
                 {% if i.level_id ==level.id%}
-                   <a href="{{ url_for('class_info', id=i.id) }}">{{ i.name }}</a>
+                   <li><a href="{{ url_for('class_info', id=i.id) }}">{{ i.name }}</a></li>
                 {% endif %}
             {% endfor %}
             </th>
+        </ul>
             <th>
                 <a href="{{ url_for('add_or_update_level', id=level.id) }}">Sua</a>
                 <a href="{{ url_for('delete_level', id = level.id) }}">Xoa</a>
@@ -42,6 +59,7 @@
     {% endfor %}
     </table>
 {% endif %}
-<!--  -->
+</div>
+    <!--  -->
 {% endblock %}
 <!--  -->
