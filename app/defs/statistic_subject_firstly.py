@@ -1,5 +1,6 @@
 from flask import render_template, request, redirect
 from flask_login import login_required, current_user
+from math import ceil
 
 from ..models import Subject
 
@@ -9,7 +10,13 @@ def statistic_subject_firstly():
     if(not current_user.is_admin):
         return render_template('page/403.html')
 
-    model_subjects = Subject.query.all()
+    page_size = 12
+    page = request.args.get('page', 1, type=int)
+    last_page = ceil(Subject.query.count() / page_size)
+    start = (page - 1) * page_size
+    end = start + page_size
+
+    model_subjects = Subject.query.slice(start, end).all()
 
     subjects = []
     for model_subject in model_subjects:
@@ -29,7 +36,7 @@ def statistic_subject_firstly():
         subjects.append(subject)
 
     print(subjects)
-    return render_template('page/statistic_subject_firstly.html', subjects=subjects)
+    return render_template('page/statistic_subject_firstly.html', subjects=subjects, last_page=last_page, page=page, range=range)
 
 
 def find_subject(subjects, model_subject):
