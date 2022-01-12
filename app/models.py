@@ -2,6 +2,7 @@ import enum
 from sqlalchemy import Column, Integer, String, DateTime, Boolean, Enum, JSON, Float
 from datetime import datetime
 from flask_login import UserMixin
+import hashlib
 
 from sqlalchemy.orm import backref, relationship
 from sqlalchemy.sql.schema import ForeignKey
@@ -36,7 +37,7 @@ class User(BaseModel, UserMixin):
 class Policy(BaseModel):
     key = Column(String(50), nullable=False, unique=True)
     name = Column(String(50), nullable=False, unique=True)
-    value = Column(String(50), nullable=False)
+    value = Column(Integer, nullable=False)
     description = Column(String(500), nullable=False)
 
     def __str__(self):
@@ -74,7 +75,7 @@ class SubjectStudent(BaseModel):
 class Student(BaseModel):
     name = Column(String(50), nullable=False)
     email = Column(String(50), nullable=False)
-    phone_number = Column(Integer, nullable=False)
+    phone_number = Column(String(50), nullable=False)
     address = Column(String(50), nullable=False)
     birth_date = Column(DateTime, nullable=False)
     gender = Column(Enum(GenderEnum), nullable=False)
@@ -138,6 +139,46 @@ class Classroom(BaseModel):
 
 def migrate():
     db.create_all()
+
+    db.session.add(Policy(key='min_age', name='tuổi nhập học tối thiểu',
+                          value=15, description='Tuổi nhập học tối thiểu'))
+    db.session.add(Policy(key='max_age', name='tuổi nhập học tối đa',
+                          value=20, description='Tuổi nhập học tối đa'))
+
+    db.session.add(Policy(key='max_amount', name='số lượng học sinh tối đa',
+                          value=40, description='Số lượng học sinh tối đa'))
+
+    db.session.add(Policy(key='min_test15', name='số lượng tối thiểu điểm 15 phút',
+                          value=1, description='số lượng tối thiểu điểm 15 phút'))
+    db.session.add(Policy(key='max_test15', name='số lượng tối đa điểm 15 phút',
+                          value=5, description='số lượng tối đa điểm 15 phút'))
+
+    db.session.add(Policy(key='min_test45', name='số lượng tối thiểu điểm 45 phút',
+                          value=1, description='số lượng tối thiểu điểm 45 phút'))
+    db.session.add(Policy(key='max_test45', name='số lượng tối đa điểm 45 phút',
+                          value=3, description='số lượng tối đa điểm 45 phút'))
+
+    db.session.add(Policy(key='final_test', name='số lượng điểm cuối kỳ',
+                          value=1, description='số lượng điểm cuối kỳ'))
+
+    db.session.add(Policy(key='min_success', name='điểm tối thiểu để đạt',
+                          value=5, description='điểm tối thiểu để đạt'))
+
+    db.session.add(Level(name='10', description='Khối 10', subject_names=[
+                   'toán', 'văn', 'tiếng anh', 'sử', 'địa']))
+    db.session.add(Level(name='11', description='Khối 11', subject_names=[
+        'toán', 'văn', 'tiếng anh', 'sử', 'địa']))
+    db.session.add(Level(name='12', description='Khối 12', subject_names=[
+        'toán', 'văn', 'tiếng anh', 'sử', 'địa']))
+
+    db.session.add(
+        User(name='admin', email='admin@gmail.com', password=generage_password('password'), is_admin=True, is_teacher=True, is_staff=True))
+
+    db.session.commit()
+
+
+def generage_password(password):
+    return hashlib.md5(password.strip().encode('utf-8')).hexdigest()
 
 
 if __name__ == '__main__':

@@ -16,6 +16,8 @@
             method="POST"
             action="{{ url_for('create_student') }}"
         >
+            <div style="color: red; margin-bottom: 6px;">Chỉ tiếp nhận học sinh từ {{ min_age_policy.value }} đến {{ max_age_policy.value }} tuối</div>
+
             <div class="form-group">
                 <label for="name">Tên học sinh</label>
                 <input

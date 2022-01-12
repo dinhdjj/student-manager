@@ -11,6 +11,8 @@ from .defs.get_score import get_score
 from .defs.statistic_subject import statistic_subject
 from .defs.create_score_firstly import create_score_firstly
 from .defs.statistic_subject_firstly import statistic_subject_firstly
+from .defs.manage_policies import manage_policies
+from .defs.create_user import create_user
 
 
 def define_routes(app):
@@ -41,3 +43,7 @@ def define_routes(app):
     app.route('/statistic-subject', methods=['GET'])(statistic_subject_firstly)
     app.route('/statistic-subject/<subject_name>/<int:semester>/<int:year>',
               methods=['GET'])(statistic_subject)
+
+    app.route('/policies', methods=['GET', 'POST'])(manage_policies)
+
+    app.route('/users/create', methods=['GET', 'POST'])(create_user)

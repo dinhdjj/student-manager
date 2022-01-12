@@ -1,8 +1,10 @@
+from math import ceil
 from flask import request
 from flask.templating import render_template
 from flask_login import login_required, current_user
+from datetime import datetime
 
-from ..models import Student
+from ..models import Policy, Student
 from app import db
 
 
@@ -13,6 +15,8 @@ def create_student():
 
     errors = {}
     successes = {}
+    min_age_policy = Policy.query.filter_by(key='min_age').first()
+    max_age_policy = Policy.query.filter_by(key='max_age').first()
 
     if(request.method == 'POST'):
         name = request.form.get('name')
@@ -32,6 +36,16 @@ def create_student():
             errors['address'] = 'Địa chỉ là bắt buộc'
         if(not birth_date):
             errors['birth_date'] = 'Ngày sinh là bắt buộc'
+        else:
+            age = (datetime.now() - datetime.strptime(birth_date, "%Y-%m-%d")).days
+            age = ceil(age / 365)
+            if(age < min_age_policy.value):
+                errors['birth_date'] = 'Tuổi học sinh phải lớn hơn hoặc bằng ' + \
+                    str(min_age_policy.value)
+            if(age > max_age_policy.value):
+                errors['birth_date'] = 'Tuổi học sinh phải nhỏ hơn hoặc bằng ' + \
+                    str(max_age_policy.value)
+
         if(not gender):
             errors['gender'] = 'Gới tính là bắt buộc'
 
@@ -42,4 +56,4 @@ def create_student():
             db.session.commit()
             successes['result'] = 'Tiếp nhận thành công học sinh'
 
-    return render_template('page/create_student.html', errors=errors, successes=successes)
+    return render_template('page/create_student.html', errors=errors, successes=successes, min_age_policy=min_age_policy, max_age_policy=max_age_policy)

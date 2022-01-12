@@ -1,0 +1,116 @@
+{% extends 'layout/layout.html' %}
+<!--  -->
+{% set active_page = 'create_user' %}
+
+<!--  -->
+{% block content %}
+<!--  -->
+
+<main>
+    <h1>Thêm thành viên</h1>
+
+    <div class="row" style="margin: 20px 0">
+        <form class="col border" style="padding: 18px" method="POST">
+            <div class="form-group">
+                <label for="name">Tên thành viên</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    id="name"
+                    placeholder="Lê Văn A"
+                    name="name"
+                    value="{{ request.form.get('name') if request.form.get('name') else '' }}"
+                />
+                {% if errors.get('name') %}
+                <div style="color: red">{{ errors.get('name') }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="email">Địa chỉ email</label>
+                <input
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    placeholder="levana@gmail.com"
+                    name="email"
+                    value="{{ request.form.get('email') if request.form.get('email') else '' }}"
+                />
+                {% if errors.get('email') %}
+                <div style="color: red">{{ errors.get('email') }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="password">Mật khẩu</label>
+                <input
+                    type="password"
+                    class="form-control"
+                    id="password"
+                    placeholder="******"
+                    name="password"
+                />
+                {% if errors.get('password') %}
+                <div style="color: red">{{ errors.get('password') }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="confirmed_password">Xác nhận mật khẩu</label>
+                <input
+                    type="password"
+                    class="form-control"
+                    id="confirmed_password"
+                    placeholder="******"
+                    name="confirmed_password"
+                />
+                {% if errors.get('confirmed_password') %}
+                <div style="color: red">
+                    {{ errors.get('confirmed_password') }}
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="select2-roles">Vai trò</label>
+                <select
+                    id="select2-roles"
+                    name="roles[]"
+                    multiple="multiple"
+                    class="form-control"
+                >
+                    <option value="admin" {{ 'selected="selected"' if 'admin' in request.form.getlist('roles[]') else '' }}>Quản trị viên</option>
+                    <option value="teacher" {{ 'selected="selected"' if 'teacher' in request.form.getlist('roles[]') else '' }}>Giáo viên</option>
+                    <option value="staff" {{ 'selected="selected"' if 'staff' in request.form.getlist('roles[]') else '' }}>Nhân viên</option>
+                </select>
+                {% if errors.get('roles[]') %}
+                <div style="color: red">
+                    {{ errors.get('roles[]') }}
+                </div>
+                {% endif %}
+                <script>
+                    $(document).ready(function () {
+                        $("#select2-roles").select2();
+                    });
+                </script>
+            </div>
+
+            {% if errors.get('result') %}
+            <div style="color: red; margin-top: 6px">
+                {{ errors.get('result') }}
+            </div>
+            {% endif %} {% if successes.get('result') %}
+            <div style="color: green; margin-top: 6px">
+                {{ successes.get('result') }}
+            </div>
+            {% endif %}
+            <button type="submit" class="btn btn-primary">
+                Thêm thành viên
+            </button>
+        </form>
+    </div>
+</main>
+
+<!--  -->
+{% endblock %}
+<!--  -->
