@@ -69,8 +69,9 @@ def delete_level():
 
 
 def parse_subject(string):
-    subjects = string.replace(" ", '')
-    subject = subjects.split(',')
+    subject = string.split(',')
+    for i in subject:
+        i.strip()
     return subject
 
 
@@ -80,5 +81,4 @@ def a(subject):
     a = a.replace(']', '')
     a = a.replace("'", '')
     a = a.replace('"','')
-    a = a.replace(' ', '')
     return a
