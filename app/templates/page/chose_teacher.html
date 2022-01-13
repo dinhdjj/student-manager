@@ -1,0 +1,26 @@
+{% extends 'layout/layout.html' %}
+<!--  -->
+
+
+<!--  -->
+{% block content %}
+    <h1>Chon Giao Vien</h1>
+    <h1>{{ a }}</h1>
+    <form method="POST">
+        {% for idx,s in subject %}
+            <div class="form-group">
+                <label>{{ s +' '+ cl.name }}</label>
+                <select class="form-control" name="teacher{{ idx }}">
+                   {% for t in teacher %}
+                   <option value="{{ t.id }}" >{{ t.name }}</option>
+                   {% endfor %}
+               </select>
+            </div>
+        {% endfor %}
+        <div class="form-group">
+                 <button>Submit</button>
+            </div>
+    </form>
+    </div>
+
+{% endblock %}
