@@ -5,7 +5,6 @@ from .models import User, SubjectStudent, Subject, Classroom, Level, generage_pa
 
 
 def check_login(email, password):
-    return User.query.filter_by(email=email, password=password).first()
     user = User.query.filter_by(email=email).first()
     if check_password(password, user.password):
         return user
