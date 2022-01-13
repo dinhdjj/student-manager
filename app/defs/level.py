@@ -34,8 +34,7 @@ def add_or_update_level():
     if request.method == 'POST':
         name = request.form.get('name')
         description = request.form.get('description')
-        subject = parse_subject(request.form.get('subject'))
-        subject_names = json.dumps(subject)
+        subject_names = parse_subject(request.form.get('subject'))
         check = check_l(name=name)
         if not level_id:
             if not name:
@@ -72,13 +71,14 @@ def delete_level():
 def parse_subject(string):
     subjects = string.replace(" ", '')
     subject = subjects.split(',')
-    s = [x for x in subject if x]
-    return s
+    return subject
 
 
 def a(subject):
-    a = subject.replace('[', '')
+    a = subject.__str__()
+    a = a.replace('[', '')
     a = a.replace(']', '')
-    a = a.replace('"', '')
+    a = a.replace("'", '')
+    a = a.replace('"','')
     a = a.replace(' ', '')
     return a
