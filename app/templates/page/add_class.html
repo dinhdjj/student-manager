@@ -1,16 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Them Khoi lop</title>
-    <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-      crossorigin="anonymous"
-    />
-</head>
-<body>
+{% extends 'layout/layout.html' %}
+<!--  -->
+
+
+<!--  -->
+{% block content %}
     <div class="container">
          <h1>{% if request.args.get('id')%}Cap Nhat Lop{% else %}Them Lop{% endif %}</h1>
         <form method="POST">
@@ -39,6 +32,4 @@
             </div>
         </form>
     </div>
-</body>
-
-</html>
+{% endblock %}
