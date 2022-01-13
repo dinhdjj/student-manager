@@ -1,10 +1,10 @@
-
 from . import db
 from .models import User, SubjectStudent, Subject, Classroom, Level, generage_password
 
 
 def check_login(email, password):
     return User.query.filter_by(email=email, password=password).first()
+
 
 def check_password(checked_password, password):
     return generage_password(checked_password) == password
@@ -124,7 +124,6 @@ def add_subject(name, description, classroom_id, teacher_id):
     db.session.commit()
 
 
-
 def delete_subject(name):
     subject = Subject.query.filter(Subject.name.__eq__(name)).first()
     db.session.delete(subject)
@@ -135,14 +134,16 @@ def get_subject(name):
     subject = Subject.query.filter(Subject.name.__eq__(name)).first()
     return subject
 
-def update_subject(name,description,classroom_id,teacher_id):
+
+def update_subject(name, description, classroom_id, teacher_id):
     subject = Subject.query.filter(Subject.name.__eq__(name)).first()
     subject.name = name
-    subject.description =description
-    subject.classroom_id =classroom_id
-    subject.teacher_id =teacher_id
+    subject.description = description
+    subject.classroom_id = classroom_id
+    subject.teacher_id = teacher_id
     db.session.add(subject)
     db.session.commit()
+
 
 def get_teacher():
     t = User.query.filter(User.is_teacher.__eq__(True)).all()
