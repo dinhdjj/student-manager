@@ -1,0 +1,90 @@
+{% extends 'layout/layout.html' %}
+<!--  -->
+{% set active_page = 'class_manage_students' %}
+
+<!--  -->
+{% block content %}
+<!--  -->
+
+<main class="container">
+    <h1>
+        Quản lý học sinh của lớp
+        <span style="color: green">{{ classroom.name }}</span> ({{
+        classroom.year }})
+    </h1>
+
+    <!-- Add student -->
+    <div class="row" style="margin: 20px 0">
+        <form class="col border" style="padding: 18px" method="POST">
+            <div class="form-group">
+                <label for="select2-student-ids">Thêm học sinh</label>
+                <select
+                    id="select2-student-ids"
+                    class="form-control"
+                    name="student_ids[]"
+                    multiple="multiple"
+                >
+                    {% for student in unadded_students %}
+                    <option value="{{ student.id }}">{{ student.name }}</option>
+                    {% endfor %}
+                </select>
+                <script>
+                    $(document).ready(function () {
+                        $("#select2-student-ids").select2();
+                    });
+                </script>
+                {% if errors.get('student_ids') %}
+                <div style="color: red">{{ errors.get('student_ids') }}</div>
+                {% endif %}
+            </div>
+
+            {% if errors.get('result') %}
+            <div style="color: red; margin-top: 6px">
+                {{ errors.get('result') }}
+            </div>
+            {% endif %} {% if successes.get('result') %}
+            <div style="color: green; margin-top: 6px">
+                {{ successes.get('result') }}
+            </div>
+            {% endif %}
+            <button type="submit" class="btn btn-primary">Thêm</button>
+        </form>
+    </div>
+
+    <!-- List student -->
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Họ và tên</th>
+                <th scope="col">Giới tính</th>
+                <th scope="col">Năm sinh</th>
+                <th scope="col">Địa chỉ</th>
+                <th scope="col"><span class="sr-only">Hành động</span></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in students %}
+            <tr>
+                <th scope="row">{{ student.name }}</th>
+                <th scope="row">{{ student.getVietnameseGender() }}</th>
+                <th scope="row">{{ student.getFriendlyBirthDay() }}</th>
+                <th scope="row">{{ student.address }}</th>
+                <th scope="row">
+                    <form
+                        action="{{ url_for('class_delete_student', class_id=classroom.id, student_id=student.id) }}"
+                        method="POST"
+                    >
+                        <button type="submit" class="btn btn-danger">
+                            Xóa
+                        </button>
+                    </form>
+                </th>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</main>
+
+<!--  -->
+{% endblock %}
+<!--  -->

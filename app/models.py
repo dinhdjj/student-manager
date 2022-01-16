@@ -85,6 +85,17 @@ class Student(BaseModel):
     def __str__(self):
         return self.name
 
+    def getVietnameseGender(self):
+        if self.gender == GenderEnum.female:
+            return 'nữ'
+        if self.gender == GenderEnum.male:
+            return 'nam'
+        if self.gender == GenderEnum.other:
+            return 'khác'
+
+    def getFriendlyBirthDay(self):
+        return f"{self.birth_date.day}/{self.birth_date.month}/{self.birth_date.year}"
+
 
 class Subject(BaseModel):
     name = Column(String(50), nullable=False)

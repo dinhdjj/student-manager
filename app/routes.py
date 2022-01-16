@@ -13,6 +13,8 @@ from .defs.create_score_firstly import create_score_firstly
 from .defs.statistic_subject_firstly import statistic_subject_firstly
 from .defs.manage_policies import manage_policies
 from .defs.create_user import create_user
+from .defs.class_manage_students import class_manage_students
+from .defs.class_delete_student import class_delete_student
 
 
 def define_routes(app):
@@ -22,15 +24,19 @@ def define_routes(app):
 
     app.route('/login', methods=['GET', 'POST'])(login)
     app.route('/logout', methods=['POST'])(logout)
-    app.route('/level/manage',methods=['GET', 'POST'])(level_manage)
+    app.route('/level/manage', methods=['GET', 'POST'])(level_manage)
     app.route('/level/add', methods=['GET', 'POST'])(add_or_update_level)
     app.route('/level/delete', methods=['GET', 'POST'])(delete_level)
-    app.route('/class/manage',methods=['GET', 'POST'])(class_manage)
+    app.route('/class/manage', methods=['GET', 'POST'])(class_manage)
     app.route('/class/students')(class_info)
     app.route('/class/add', methods=['GET', 'POST'])(add_update_class)
-    app.route('/class/delete', methods=['GET', 'POST'])(delete_class    )
+    app.route('/class/delete', methods=['GET', 'POST'])(delete_class)
     app.route('/class/add/teacher', methods=['GET', 'POST'])(chose_teacher)
     app.route('/change_password', methods=['GET', 'POST'])(change_password)
+    app.route('/class/<int:class_id>/students',
+              methods=['GET', 'POST'])(class_manage_students)
+    app.route('/class/<int:class_id>/students/<int:student_id>',
+              methods=['POST'])(class_delete_student)
 
     app.route('/student/create', methods=['GET', 'POST'])(create_student)
 
