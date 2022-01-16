@@ -22,12 +22,11 @@ def get_score(classroom_id):
             "s1": None,
             "s2": None,
         }
+        s1_sum = 0
+        s1_coefficient = 0
+        s2_sum = 0
+        s2_coefficient = 0
         for subject_student in student.subject_students:
-            s1_sum = 0
-            s1_coefficient = 0
-            s2_sum = 0
-            s2_coefficient = 0
-
             if(subject_student.s1_test15):
                 for test in subject_student.s1_test15:
                     s1_sum += test
