@@ -63,6 +63,7 @@
             <th>{{ i.level }}</th>
             <th>{{ i.year }}</th>
             <th>
+                {% if current_user.is_staff %}
                 <a href="{{ url_for('chose_teacher', id = i.id) }}"
                     >Chon giao vien</a
                 ><br />
@@ -76,9 +77,13 @@
                 ><br />
                 <a href="{{ url_for('delete_class', id = i.id) }}">Xoa</a>
                 <br />
+                {% endif %}
+                <!--  -->
+                {% if current_user.is_teacher %}
                 <a href="{{ url_for('get_score', classroom_id = i.id) }}">
                     Xem điểm
                 </a>
+                {% endif %}
             </th>
         </tr>
         {% endfor %}

@@ -13,7 +13,7 @@ from app.utils import add_or_update_c, count_c, get_level, get_class, check_c, d
 
 @login_required
 def class_manage():
-    if not current_user.is_teacher or not current_user.is_admin:
+    if not current_user.is_staff and not current_user.is_teacher:
         return render_template('page/403.html')
     err = ''
     page = request.args.get('page', 1)
@@ -57,11 +57,13 @@ def add_update_class():
         if check:
             err['check'] = 'Ten da ton tai'
         if not err:
-            add_or_update_c(class_id=class_id, name=name, description=description,year=year, level_id=level)
+            add_or_update_c(class_id=class_id, name=name,
+                            description=description, year=year, level_id=level)
             return redirect(url_for('class_manage'))
     if class_id:
         c = Classroom.query.get(class_id)
     return render_template('page/add_class.html', l=l, c=c, err=err)
+
 
 def delete_class():
     err = ''
@@ -95,14 +97,16 @@ def chose_teacher():
     if request.method == 'POST':
         for idx, i in subject:
             name = i + " " + cl.name
-            description = 'Mon '+ i +' lop ' + cl.name
+            description = 'Mon ' + i + ' lop ' + cl.name
             classroom_id = cl.id
             c = str('teacher' + idx.__str__())
             teacher_id = request.form.get(c)
             s = get_subject(name=name)
             if not s:
-                add_subject(name=name,description=description,classroom_id=classroom_id,teacher_id=teacher_id)
+                add_subject(name=name, description=description,
+                            classroom_id=classroom_id, teacher_id=teacher_id)
             else:
-                update_subject(name=name,description=description,classroom_id=classroom_id,teacher_id=teacher_id)
+                update_subject(name=name, description=description,
+                               classroom_id=classroom_id, teacher_id=teacher_id)
         return redirect('/class/manage')
-    return render_template('page/chose_teacher.html',cl=cl,subject=subject,teacher=t)
+    return render_template('page/chose_teacher.html', cl=cl, subject=subject, teacher=t)
